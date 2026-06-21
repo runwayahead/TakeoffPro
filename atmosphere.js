@@ -1,234 +1,174 @@
 /*
-=========================================
-TakeoffPro V2
+========================================================
+
+TakeoffPro V2.1 Stable
+
 atmosphere.js
-C172 TAE125-02-114
-=========================================
+
+========================================================
 */
 
-const ISA_TEMP = 15;
-const ISA_LAPSE = 2; // °C / 1000 ft
+class Atmosphere {
 
-function round(value) {
-    return Math.round(value);
-}
+    /*
+    ----------------------------------------------------
+    Pressure Altitude
+    ----------------------------------------------------
+    */
 
-/*
------------------------------------------
-Pressure Altitude
-PA = Elevation + (1013 - QNH) * 30
------------------------------------------
-*/
+    static pressureAltitude(elevation, qnh) {
 
-function calculatePressureAltitude(elevation, qnh) {
+        return Math.round(
 
-    return round(
+            elevation +
 
-        Number(elevation) +
-
-        ((1013 - Number(qnh)) * 30)
-
-    );
-
-}
-
-/*
------------------------------------------
-ISA Temperature
------------------------------------------
-*/
-
-function calculateISATemperature(pressureAltitude) {
-
-    return ISA_TEMP -
-
-        ((pressureAltitude / 1000) * ISA_LAPSE);
-
-}
-
-/*
------------------------------------------
-Density Altitude
-DA = PA + 120 * (OAT - ISA Temp)
------------------------------------------
-*/
-
-function calculateDensityAltitude(
-
-    pressureAltitude,
-
-    oat
-
-) {
-
-    const isaTemp =
-
-        calculateISATemperature(
-
-            pressureAltitude
+            (1013 - qnh) * 30
 
         );
-
-    return round(
-
-        pressureAltitude +
-
-        (120 * (Number(oat) - isaTemp))
-
-    );
-
-}
-
-/*
------------------------------------------
-Update Atmosphere Card
------------------------------------------
-*/
-
-function updateAtmosphere() {
-
-    const elevation =
-
-        Number(
-
-            document.getElementById(
-
-                "elevation"
-
-            ).value
-
-        );
-
-    const qnh =
-
-        Number(
-
-            document.getElementById(
-
-                "qnh"
-
-            ).value
-
-        );
-
-    const oat =
-
-        Number(
-
-            document.getElementById(
-
-                "temperature"
-
-            ).value
-
-        );
-
-    const pressureAltitude =
-
-        calculatePressureAltitude(
-
-            elevation,
-
-            qnh
-
-        );
-
-    const densityAltitude =
-
-        calculateDensityAltitude(
-
-            pressureAltitude,
-
-            oat
-
-        );
-
-    document.getElementById(
-
-        "pressureAltitude"
-
-    ).innerText =
-
-        pressureAltitude + " ft";
-
-    document.getElementById(
-
-        "densityAltitude"
-
-    ).innerText =
-
-        densityAltitude + " ft";
-
-    return {
-
-        pressureAltitude:
-
-            pressureAltitude,
-
-        densityAltitude:
-
-            densityAltitude
-
-    };
-
-}
-
-/*
------------------------------------------
-Live Update
------------------------------------------
-*/
-
-window.addEventListener(
-
-    "load",
-
-    () => {
-
-        [
-
-            "elevation",
-
-            "qnh",
-
-            "temperature"
-
-        ].forEach(id => {
-
-            document
-
-                .getElementById(id)
-
-                .addEventListener(
-
-                    "input",
-
-                    () => {
-
-                        updateAtmosphere();
-
-                        if (
-
-                            typeof updatePerformance
-
-                            ===
-
-                            "function"
-
-                        ) {
-
-                            updatePerformance();
-
-                        }
-
-                    }
-
-                );
-
-        });
-
-        updateAtmosphere();
 
     }
 
-);
+    /*
+    ----------------------------------------------------
+    ISA Temperature
+    ----------------------------------------------------
+    */
+
+    static isaTemperature(pressureAltitude) {
+
+        return Number(
+
+            (
+
+                15 -
+
+                pressureAltitude / 500
+
+            ).toFixed(1)
+
+        );
+
+    }
+
+    /*
+    ----------------------------------------------------
+    Density Altitude
+    ----------------------------------------------------
+    */
+
+    static densityAltitude(
+
+        pressureAltitude,
+
+        temperature
+
+    ) {
+
+        const isa =
+
+            this.isaTemperature(
+
+                pressureAltitude
+
+            );
+
+        let densityAltitude =
+
+            pressureAltitude +
+
+            120 *
+
+            (
+
+                temperature -
+
+                isa
+
+            );
+
+        /*
+        ----------------------------------------------
+
+        AFM limitation
+
+        Negative Density Altitude
+        is always calculated as 0 ft.
+
+        ----------------------------------------------
+        */
+
+        if (
+
+            densityAltitude < 0
+
+        ) {
+
+            densityAltitude = 0;
+
+        }
+
+        return Math.round(
+
+            densityAltitude
+
+        );
+
+    }
+
+    /*
+    ----------------------------------------------------
+    Complete Calculation
+    ----------------------------------------------------
+    */
+
+    static calculate(
+
+        elevation,
+
+        qnh,
+
+        temperature
+
+    ) {
+
+        const pressureAltitude =
+
+            this.pressureAltitude(
+
+                elevation,
+
+                qnh
+
+            );
+
+        const isaTemperature =
+
+            this.isaTemperature(
+
+                pressureAltitude
+
+            );
+
+        const densityAltitude =
+
+            this.densityAltitude(
+
+                pressureAltitude,
+
+                temperature
+
+            );
+
+        return {
+
+            pressureAltitude,
+
+            densityAltitude,
+
+            isaTemperature
+
+        };
+
+    }
+
+}
