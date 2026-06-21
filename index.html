@@ -1,22 +1,51 @@
 <!DOCTYPE html>
+
 <html lang="de">
 
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1,viewport-fit=cover"
+    >
 
-    <title>TakeoffPro</title>
+    <title>
 
-    <meta name="theme-color" content="#111827">
+        TakeoffPro V2.2 Stable
 
-    <link rel="manifest" href="manifest.json">
+    </title>
 
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta
+        name="theme-color"
+        content="#111827"
+    >
 
-    <link rel="stylesheet" href="styles.css">
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="icons/icon-192.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
 
 </head>
 
@@ -24,21 +53,35 @@
 
 <div class="app">
 
-    <!-- ===================================================== -->
-    <!-- Header -->
-    <!-- ===================================================== -->
+    <!-- ============================================== -->
+    <!-- Header                                         -->
+    <!-- ============================================== -->
 
     <header class="topHeader">
 
         <div>
 
-            <h1>TakeoffPro</h1>
+            <h1>
 
-            <p>C172 TAE125-02-114</p>
+                TakeoffPro
+
+            </h1>
+
+            <p>
+
+                C172 TAE125-02-114
+
+            </p>
 
         </div>
 
-        <div id="statusBadge" class="statusBadge safe">
+        <div
+
+            id="headerStatusBadge"
+
+            class="statusBadge safe"
+
+        >
 
             SAFE
 
@@ -46,21 +89,21 @@
 
     </header>
 
-
-
-    <!-- ===================================================== -->
-    <!-- Top Grid -->
-    <!-- ===================================================== -->
+    <!-- ============================================== -->
+    <!-- Top Grid                                       -->
+    <!-- ============================================== -->
 
     <div class="topGrid">
 
-        <!-- ================================================= -->
         <!-- Aircraft -->
-        <!-- ================================================= -->
 
         <section class="card">
 
-            <h2>✈ Aircraft</h2>
+            <h2>
+
+                ✈ Aircraft
+
+            </h2>
 
             <label>
 
@@ -72,9 +115,11 @@
 
                     type="number"
 
-                    value="1157"
+                    value="1111"
 
                     min="0"
+
+                    max="1111"
 
                     step="1"
 
@@ -86,23 +131,25 @@
 
                 id="weightInterpolation"
 
-                class="infoBox">
+                class="infoBox"
 
-                AFM 1157 kg
+            >
+
+                AFM direct 1111 kg
 
             </div>
 
         </section>
 
-
-
-        <!-- ================================================= -->
         <!-- Weather -->
-        <!-- ================================================= -->
 
         <section class="card">
 
-            <h2>☁ Weather</h2>
+            <h2>
+
+                ☁ Weather
+
+            </h2>
 
             <label>
 
@@ -114,7 +161,9 @@
 
                     type="number"
 
-                    value="20">
+                    value="15"
+
+                >
 
             </label>
 
@@ -128,7 +177,9 @@
 
                     type="number"
 
-                    value="1013">
+                    value="1013"
+
+                >
 
             </label>
 
@@ -142,21 +193,23 @@
 
                     type="number"
 
-                    value="0">
+                    value="0"
+
+                >
 
             </label>
 
         </section>
 
-
-
-        <!-- ================================================= -->
         <!-- Runway -->
-        <!-- ================================================= -->
 
         <section class="card">
 
-            <h2>🛬 Runway</h2>
+            <h2>
+
+                🛬 Runway
+
+            </h2>
 
             <label>
 
@@ -168,7 +221,9 @@
 
                     type="number"
 
-                    value="0">
+                    value="0"
+
+                >
 
             </label>
 
@@ -182,7 +237,9 @@
 
                     type="number"
 
-                    value="800">
+                    value="800"
+
+                >
 
             </label>
 
@@ -196,37 +253,46 @@
 
                     type="number"
 
+                    value="0"
+
                     step="0.1"
 
-                    value="0">
+                >
 
             </label>
 
         </section>
 
     </div>
-    <!-- ===================================================== -->
-    <!-- Second Grid -->
-    <!-- ===================================================== -->
+        <!-- ============================================== -->
+    <!-- Second Grid                                    -->
+    <!-- ============================================== -->
 
     <div class="middleGrid">
 
-        <!-- ================================================= -->
         <!-- Wind -->
-        <!-- ================================================= -->
 
         <section class="card">
 
-            <h2>🌬 Wind</h2>
+            <h2>
+
+                🌬 Wind
+
+            </h2>
 
             <label>
 
                 Wind Direction
 
                 <input
+
                     id="windDirection"
+
                     type="number"
-                    value="0">
+
+                    value="0"
+
+                >
 
             </label>
 
@@ -235,9 +301,14 @@
                 Wind Speed (kt)
 
                 <input
+
                     id="windSpeed"
+
                     type="number"
-                    value="0">
+
+                    value="0"
+
+                >
 
             </label>
 
@@ -277,21 +348,23 @@
 
                 id="windWarning"
 
-                class="warning">
+                class="warning"
+
+            >
 
             </div>
 
         </section>
 
-
-
-        <!-- ================================================= -->
-        <!-- Atmosphere Result -->
-        <!-- ================================================= -->
+        <!-- Atmosphere -->
 
         <section class="card">
 
-            <h2>🌍 Atmosphere</h2>
+            <h2>
+
+                🌍 Atmosphere
+
+            </h2>
 
             <div class="resultRow">
 
@@ -327,15 +400,15 @@
 
         </section>
 
-
-
-        <!-- ================================================= -->
-        <!-- Surface & Procedure -->
-        <!-- ================================================= -->
+        <!-- Configuration -->
 
         <section class="card">
 
-            <h2>⚙ Configuration</h2>
+            <h2>
+
+                ⚙ Configuration
+
+            </h2>
 
             <label>
 
@@ -397,11 +470,9 @@
 
     </div>
 
-
-
-    <!-- ===================================================== -->
-    <!-- Performance -->
-    <!-- ===================================================== -->
+    <!-- ============================================== -->
+    <!-- Performance                                    -->
+    <!-- ============================================== -->
 
     <section class="performanceCard">
 
@@ -417,7 +488,9 @@
 
                 id="groundRoll"
 
-                class="performanceValue">
+                class="performanceValue"
+
+            >
 
                 0 m
 
@@ -425,11 +498,7 @@
 
         </div>
 
-
-
         <div class="performanceDivider"></div>
-
-
 
         <div class="performanceBox">
 
@@ -443,7 +512,9 @@
 
                 id="takeoffDistance"
 
-                class="performanceValue">
+                class="performanceValue"
+
+            >
 
                 0 m
 
@@ -451,11 +522,7 @@
 
         </div>
 
-
-
         <div class="performanceDivider"></div>
-
-
 
         <div class="performanceBox">
 
@@ -469,7 +536,9 @@
 
                 id="finalDistance"
 
-                class="performanceValue highlightValue">
+                class="performanceValue highlightValue"
+
+            >
 
                 0 m
 
@@ -478,9 +547,9 @@
         </div>
 
     </section>
-    <!-- ===================================================== -->
-    <!-- Safety -->
-    <!-- ===================================================== -->
+        <!-- ============================================== -->
+    <!-- Safety                                         -->
+    <!-- ============================================== -->
 
     <section class="safetyCard">
 
@@ -498,7 +567,7 @@
 
                     <span id="runwayAvailableDisplay">
 
-                        --
+                        800
 
                     </span>
 
@@ -507,8 +576,6 @@
                 </div>
 
             </div>
-
-
 
             <div class="safetyItem">
 
@@ -522,7 +589,7 @@
 
                     <span id="finalRequiredDisplay">
 
-                        --
+                        0
 
                     </span>
 
@@ -531,8 +598,6 @@
                 </div>
 
             </div>
-
-
 
             <div class="safetyItem">
 
@@ -546,15 +611,15 @@
 
                     <span id="remainingDistance">
 
-                        0
+                        800
 
                     </span>
+
+                    m
 
                 </div>
 
             </div>
-
-
 
             <div class="safetyItem statusBox">
 
@@ -564,7 +629,13 @@
 
                 </div>
 
-                <div id="statusBadge" class="statusLarge">
+                <div
+
+                    id="statusDisplay"
+
+                    class="statusLarge safe"
+
+                >
 
                     SAFE
 
@@ -576,11 +647,9 @@
 
     </section>
 
-
-
-    <!-- ===================================================== -->
-    <!-- Details -->
-    <!-- ===================================================== -->
+    <!-- ============================================== -->
+    <!-- Calculation Details                            -->
+    <!-- ============================================== -->
 
     <section class="card">
 
@@ -596,9 +665,11 @@
 
                 id="calculationTree"
 
-                class="calculationTree">
+                class="calculationTree"
 
-                Waiting...
+            >
+
+                Waiting for input...
 
             </div>
 
@@ -606,17 +677,15 @@
 
     </section>
 
-
-
-    <!-- ===================================================== -->
-    <!-- AFM Information -->
-    <!-- ===================================================== -->
+    <!-- ============================================== -->
+    <!-- AFM Information                                -->
+    <!-- ============================================== -->
 
     <section class="card">
 
         <h2>
 
-            AFM Information
+            📖 AFM Information
 
         </h2>
 
@@ -631,6 +700,22 @@
             <strong>
 
                 C172 TAE125-02-114
+
+            </strong>
+
+        </div>
+
+        <div class="resultRow">
+
+            <span>
+
+                Maximum Takeoff Weight
+
+            </span>
+
+            <strong>
+
+                1111 kg
 
             </strong>
 
@@ -662,7 +747,23 @@
 
             <strong>
 
-                &lt;1111 kg = 1111 kg AFM
+                &lt;1111 kg = Linear Extrapolation
+
+            </strong>
+
+        </div>
+
+        <div class="resultRow">
+
+            <span>
+
+                Altitude Logic
+
+            </span>
+
+            <strong>
+
+                Density Altitude ≥ 0 ft
 
             </strong>
 
@@ -678,16 +779,16 @@
 
             <strong>
 
-                Weight / PA / Temp
+                Weight / Density Altitude / Temperature
 
             </strong>
 
         </div>
 
     </section>
-    <!-- ===================================================== -->
-    <!-- Footer -->
-    <!-- ===================================================== -->
+        <!-- ============================================== -->
+    <!-- Footer                                         -->
+    <!-- ============================================== -->
 
     <footer class="appFooter">
 
@@ -695,7 +796,7 @@
 
             <strong>
 
-                TakeoffPro V2.1
+                TakeoffPro V2.2 Stable
 
             </strong>
 
@@ -703,19 +804,23 @@
 
         <div>
 
+            Aircraft
+
             C172 TAE125-02-114
 
         </div>
 
         <div>
 
-            AFM Based Performance Calculator
+            AFM Based Takeoff Performance
 
         </div>
 
         <div>
 
-            Offline Progressive Web App
+            Weight
+
+            ≤ 1111 kg
 
         </div>
 
@@ -723,9 +828,9 @@
 
 </div>
 
-<!-- ===================================================== -->
-<!-- Scripts -->
-<!-- ===================================================== -->
+<!-- ============================================== -->
+<!-- JavaScript                                     -->
+<!-- ============================================== -->
 
 <script src="afm-data.js"></script>
 
@@ -738,113 +843,6 @@
 <script src="performance.js"></script>
 
 <script src="app.js"></script>
-
-<script>
-
-/*
-========================================================
-Mirror values to Safety Card
-
-========================================================
-*/
-
-function updateDisplayValues(){
-
-    const finalValue=document.getElementById(
-
-        "finalDistance"
-
-    );
-
-    const runwayLength=document.getElementById(
-
-        "runwayLength"
-
-    );
-
-    const finalDisplay=document.getElementById(
-
-        "finalRequiredDisplay"
-
-    );
-
-    const runwayDisplay=document.getElementById(
-
-        "runwayAvailableDisplay"
-
-    );
-
-    if(finalValue && finalDisplay){
-
-        finalDisplay.innerHTML=
-
-            finalValue.innerHTML.replace(" m","");
-
-    }
-
-    if(runwayLength && runwayDisplay){
-
-        runwayDisplay.innerHTML=
-
-            runwayLength.value;
-
-    }
-
-}
-
-/*
-========================================================
-Service Worker
-
-========================================================
-*/
-
-if(
-
-    "serviceWorker"
-
-    in
-
-    navigator
-
-){
-
-    navigator.serviceWorker.register(
-
-        "service-worker.js"
-
-    );
-
-}
-
-/*
-========================================================
-Live Update
-
-========================================================
-*/
-
-window.addEventListener(
-
-    "load",
-
-    function(){
-
-        updateDisplayValues();
-
-        setInterval(
-
-            updateDisplayValues,
-
-            300
-
-        );
-
-    }
-
-);
-
-</script>
 
 </body>
 
