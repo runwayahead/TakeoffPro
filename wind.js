@@ -1,131 +1,396 @@
 /*
-=========================================
-TakeoffPro V2
+========================================================
+
+TakeoffPro V2.3 Stable
+
 wind.js
-C172 TAE125-02-114
-=========================================
+
+========================================================
 */
 
-function toRadians(degrees) {
-    return degrees * Math.PI / 180;
-}
+"use strict";
 
-function normalizeAngle(angle) {
+/*
+========================================================
+Helper
+========================================================
+*/
 
-    angle = angle % 360;
+function normalizeAngle(angle){
 
-    if (angle < 0) {
-        angle += 360;
+    angle=Number(angle)||0;
+
+    while(angle<0){
+
+        angle+=360;
+
+    }
+
+    while(angle>=360){
+
+        angle-=360;
+
     }
 
     return angle;
 
 }
 
-function calculateWindComponents(
+/*
+========================================================
+Wind Components
+========================================================
+*/
 
-    runwayHeading,
+function calculateWindComponents(
 
     windDirection,
 
+    runwayHeading,
+
     windSpeed
 
-) {
+){
 
-    runwayHeading = Number(runwayHeading);
-    windDirection = Number(windDirection);
-    windSpeed = Number(windSpeed);
+    windDirection=normalizeAngle(
 
-    let difference = normalizeAngle(
-
-        windDirection - runwayHeading
+        windDirection
 
     );
 
-    if (difference > 180) {
-        difference = 360 - difference;
+    runwayHeading=normalizeAngle(
+
+        runwayHeading
+
+    );
+
+    windSpeed=Number(windSpeed)||0;
+
+    let difference=
+
+        windDirection-
+
+        runwayHeading;
+
+    if(difference>180){
+
+        difference-=360;
+
     }
 
-    const radians = toRadians(difference);
+    if(difference<-180){
 
-    const headwind =
+        difference+=360;
 
-        Math.cos(radians) * windSpeed;
+    }
 
-    const crosswind =
+    const radians=
 
-        Math.sin(radians) * windSpeed;
+        difference*
 
-    return {
+        Math.PI/
 
-        headwind: headwind,
+        180;
 
-        crosswind: Math.abs(crosswind)
+    const longitudinal=
+
+        Math.cos(
+
+            radians
+
+        )*
+
+        windSpeed;
+
+    const lateral=
+
+        Math.sin(
+
+            radians
+
+        )*
+
+        windSpeed;
+
+    return{
+
+        headwind:
+
+            longitudinal>0
+
+            ?Math.round(longitudinal)
+
+            :0,
+
+        tailwind:
+
+            longitudinal<0
+
+            ?Math.round(
+
+                Math.abs(
+
+                    longitudinal
+
+                )
+
+            )
+
+            :0,
+
+        crosswind:
+
+            Math.round(
+
+                Math.abs(
+
+                    lateral
+
+                )
+
+            )
+
+    };
+
+}
+/*
+========================================================
+
+Update Wind
+
+========================================================
+*/
+
+function updateWind(){
+
+    const windDirection=Number(
+
+        document.getElementById(
+
+            "windDirection"
+
+        ).value
+
+    )||0;
+
+    const windSpeed=Number(
+
+        document.getElementById(
+
+            "windSpeed"
+
+        ).value
+
+    )||0;
+
+    const runwayHeading=Number(
+
+        document.getElementById(
+
+            "runwayHeading"
+
+        ).value
+
+    )||0;
+
+    const wind=
+
+        calculateWindComponents(
+
+            windDirection,
+
+            runwayHeading,
+
+            windSpeed
+
+        );
+
+    const headwindField=document.getElementById(
+
+        "headwind"
+
+    );
+
+    const tailwindField=document.getElementById(
+
+        "tailwind"
+
+    );
+
+    const crosswindField=document.getElementById(
+
+        "crosswind"
+
+    );
+
+    const warningField=document.getElementById(
+
+        "windWarning"
+
+    );
+
+    if(headwindField){
+
+        headwindField.innerHTML=
+
+            wind.headwind+" kt";
+
+    }
+
+    if(tailwindField){
+
+        tailwindField.innerHTML=
+
+            wind.tailwind+" kt";
+
+    }
+
+    if(crosswindField){
+
+        crosswindField.innerHTML=
+
+            wind.crosswind+" kt";
+
+    }
+
+    if(warningField){
+
+        warningField.innerHTML="";
+
+    }
+
+    /*
+    ====================================================
+    Tailwind Warning
+    ====================================================
+    */
+
+    if(
+
+        wind.tailwind>0 &&
+
+        warningField
+
+    ){
+
+        warningField.innerHTML=
+
+            "⚠ Tailwind "+
+
+            wind.tailwind+
+
+            " kt";
+
+    }
+
+    /*
+    ====================================================
+    Crosswind Warning
+    ====================================================
+    */
+
+    if(
+
+        wind.crosswind>15 &&
+
+        warningField
+
+    ){
+
+        warningField.innerHTML=
+
+            "⚠ Crosswind "+
+
+            wind.crosswind+
+
+            " kt";
+
+    }
+
+    return wind;
+
+}
+/*
+========================================================
+
+Wind Warning
+
+========================================================
+*/
+
+function getWindStatus(wind){
+
+    if(wind.tailwind>0){
+
+        return{
+
+            level:"warning",
+
+            message:
+
+                "Tailwind " +
+
+                wind.tailwind +
+
+                " kt"
+
+        };
+
+    }
+
+    if(wind.crosswind>15){
+
+        return{
+
+            level:"warning",
+
+            message:
+
+                "Crosswind " +
+
+                wind.crosswind +
+
+                " kt"
+
+        };
+
+    }
+
+    return{
+
+        level:"safe",
+
+        message:"Wind OK"
 
     };
 
 }
 
-/*
------------------------------------------
-AFM Wind Correction
 
-Headwind:
--10 % per 9 kt
-
-Tailwind:
-+10 % per 2 kt
-
-Maximum Tailwind considered:
-10 kt
------------------------------------------
-*/
-
-function calculateWindCorrection(headwind) {
-
-    let correction = 0;
-
-    if (headwind >= 0) {
-
-        correction =
-
-            -(headwind / 9) * 10;
-
-    }
-
-    else {
-
-        let tailwind = Math.abs(headwind);
-
-        if (tailwind > 10) {
-            tailwind = 10;
-        }
-
-        correction =
-
-            (tailwind / 2) * 10;
-
-    }
-
-    return correction;
-
-}
 
 /*
------------------------------------------
-Warnings
------------------------------------------
+========================================================
+
+Refresh Wind Display
+
+========================================================
 */
 
-function updateWindWarning(
+function refreshWind(){
 
-    headwind,
+    const wind=
 
-    crosswind
+        updateWind();
 
-) {
+    const status=
 
-    const warning =
+        getWindStatus(
+
+            wind
+
+        );
+
+    const warningField=
 
         document.getElementById(
 
@@ -133,232 +398,48 @@ function updateWindWarning(
 
         );
 
-    warning.className = "warning";
+    if(
 
-    warning.innerHTML = "";
+        warningField
 
-    if (Math.abs(headwind) > 10 && headwind < 0) {
+    ){
 
-        warning.classList.add(
+        warningField.innerHTML=
 
-            "red"
+            status.message;
 
-        );
+        warningField.className=
 
-        warning.innerHTML =
-
-            "⚠ Tailwind greater than 10 kt";
-
-        return;
+            status.level;
 
     }
 
-    if (crosswind > 15) {
-
-        warning.classList.add(
-
-            "yellow"
-
-        );
-
-        warning.innerHTML =
-
-            "⚠ Crosswind greater than 15 kt";
-
-    }
+    return wind;
 
 }
 
-/*
------------------------------------------
-Update
------------------------------------------
-*/
 
-function updateWind() {
-
-    const runwayHeading =
-
-        Number(
-
-            document.getElementById(
-
-                "runwayHeading"
-
-            ).value
-
-        );
-
-    const windDirection =
-
-        Number(
-
-            document.getElementById(
-
-                "windDirection"
-
-            ).value
-
-        );
-
-    const windSpeed =
-
-        Number(
-
-            document.getElementById(
-
-                "windSpeed"
-
-            ).value
-
-        );
-
-    const result =
-
-        calculateWindComponents(
-
-            runwayHeading,
-
-            windDirection,
-
-            windSpeed
-
-        );
-
-    const headwindDisplay =
-
-        document.getElementById(
-
-            "headwind"
-
-        );
-
-    const crosswindDisplay =
-
-        document.getElementById(
-
-            "crosswind"
-
-        );
-
-    if (result.headwind >= 0) {
-
-        headwindDisplay.innerHTML =
-
-            Math.round(result.headwind)
-
-            + " kt HW";
-
-    }
-
-    else {
-
-        headwindDisplay.innerHTML =
-
-            Math.abs(
-
-                Math.round(result.headwind)
-
-            )
-
-            + " kt TW";
-
-    }
-
-    crosswindDisplay.innerHTML =
-
-        Math.round(
-
-            result.crosswind
-
-        )
-
-        + " kt";
-
-    updateWindWarning(
-
-        result.headwind,
-
-        result.crosswind
-
-    );
-
-    return {
-
-        headwind:
-
-            result.headwind,
-
-        crosswind:
-
-            result.crosswind,
-
-        correction:
-
-            calculateWindCorrection(
-
-                result.headwind
-
-            )
-
-    };
-
-}
 
 /*
------------------------------------------
-Live Update
------------------------------------------
+========================================================
+
+Public API
+
+========================================================
 */
 
-window.addEventListener(
+window.calculateWindComponents=
 
-    "load",
+    calculateWindComponents;
 
-    () => {
+window.updateWind=
 
-        [
+    updateWind;
 
-            "runwayHeading",
+window.refreshWind=
 
-            "windDirection",
+    refreshWind;
 
-            "windSpeed"
+window.getWindStatus=
 
-        ].forEach(id => {
-
-            document
-
-                .getElementById(id)
-
-                .addEventListener(
-
-                    "input",
-
-                    () => {
-
-                        updateWind();
-
-                        if (
-
-                            typeof updatePerformance
-
-                            === "function"
-
-                        ) {
-
-                            updatePerformance();
-
-                        }
-
-                    }
-
-                );
-
-        });
-
-        updateWind();
-
-    }
-
-);
+    getWindStatus;
