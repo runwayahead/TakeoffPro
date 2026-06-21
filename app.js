@@ -575,3 +575,114 @@ window.TakeoffPro={
     }
 
 };
+/*
+========================================================
+
+TakeoffPro V2.2 Stable
+
+Application
+
+========================================================
+*/
+
+"use strict";
+
+/*
+========================================================
+Application Ready
+
+========================================================
+*/
+
+function applicationReady(){
+
+    cacheDOM();
+
+    validateWeightInput();
+
+    updatePerformance();
+
+    updateDisplayValues();
+
+}
+
+/*
+========================================================
+Refresh
+
+========================================================
+*/
+
+function refreshApplication(){
+
+    validateWeightInput();
+
+    updatePerformance();
+
+    updateDisplayValues();
+
+}
+
+/*
+========================================================
+Reset
+
+========================================================
+*/
+
+function resetApplication(){
+
+    document.getElementById("weight").value=1111;
+
+    document.getElementById("temperature").value=15;
+
+    document.getElementById("qnh").value=1013;
+
+    document.getElementById("elevation").value=0;
+
+    document.getElementById("windDirection").value=0;
+
+    document.getElementById("windSpeed").value=0;
+
+    document.getElementById("runwayHeading").value=0;
+
+    document.getElementById("runwayLength").value=800;
+
+    document.getElementById("surface").value="asphalt";
+
+    document.getElementById("procedure").value="normal";
+
+    document.getElementById("slope").value=0;
+
+    refreshApplication();
+
+}
+
+/*
+========================================================
+Public API
+
+========================================================
+*/
+
+window.TakeoffPro={
+
+    refresh:function(){
+
+        refreshApplication();
+
+    },
+
+    reset:function(){
+
+        resetApplication();
+
+    },
+
+    version:function(){
+
+        return APP_VERSION;
+
+    }
+
+};
